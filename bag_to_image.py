@@ -24,11 +24,12 @@ def cvtBag2Img(date_folder, output_folder):
                     filename=('%d_cam%d'%(i, idx)+'_'+str(file_count).zfill(6))
                     file_count+=1
                     
-                    if 'raw' in topic_name:
-                        img = bridge.imgmsg_to_cv2(msg, desired_encoding="passthrough")
-                    else:
+                    if 'compressed' == topic_name[-10:]:
                         img = bridge.compressed_imgmsg_to_cv2(msg, desired_encoding="passthrough")
-                    
+
+                    else:
+                        img = bridge.imgmsg_to_cv2(msg, desired_encoding="passthrough")
+
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                     # undistort_img = undistort(img)
                     # img = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)	
@@ -37,7 +38,7 @@ def cvtBag2Img(date_folder, output_folder):
         bag.close()
         
 if __name__ == "__main__":
-    bags_path = '/media/dong/dong_ssd/epitone/eptione_bag/calib/'
-    output_path = '/media/dong/Store2/Epitone/calib/images/'
+    bags_path = './'
+    output_path = './result/'
     
     cvtBag2Img(bags_path, output_path)
